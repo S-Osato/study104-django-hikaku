@@ -1,0 +1,13 @@
+{% extends "hikaku/base.html" %} {% block content %}
+<main>
+  <h1>価格検索</h1>
+  <form action="{% url 'hikaku:search_result' %}" method="GET">
+    <div class="ui action input" style="width: 100%">
+      <input type="text" placeholder="価格検索" name="q" />
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary">検索</button>
+      </span>
+    </div>
+  </form>
+</main>
+{% endblock %}

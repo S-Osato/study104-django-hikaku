@@ -1,0 +1,54 @@
+{% extends "hikaku/base.html" %}
+{% block content %}
+<main>
+  <h1>マイページ</h1>
+  <div class="container mt-5">
+    <h2>ユーザ情報</h2>
+    <div class="row">
+      <span class="col col-lg-2">姓:</span>
+      <span class="col">{{ user.first_name }}</span>
+    </div>
+    <div class="row">
+      <span class="col col-lg-2">名:</span>
+      <span class="col">{{ user.last_name }}</span>
+    </div>
+    <div class="row">
+      <span class="col col-lg-2">ユーザ名:</span>
+      <span class="col">{{ user.username }}</span>
+    </div>
+    <div class="row">
+      <span class="col col-lg-2">email:</span>
+      <span class="col">{{ user.email }}</span>
+    </div>
+  </div>
+  <div class="container mt-5">
+    <h2>お気に入り商品</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">画像</th>
+          <th scope="col">商品名</th>
+          <th scope="col">価格</th>
+          <th scope="col">お気に入り</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <form action="{% url 'hikaku:mypage' %}" method="POST">
+        {% csrf_token %}
+        <tr>
+          <th scope="row"><img src={{ item.product.image_link }}></th>
+          <td><a href="../offer_list/?q={{ item.product.id }}"> {{ item.product.name }}</a></td> 
+          <td>{{ item.product.price }}</td>
+          <td>
+            <input type="hidden" name="product_id" value={{ item.product.id }}>
+            <button type="submit" class="btn btn-info">お気に入り削除</button>
+          </td>
+        </tr>
+        </form>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
+{% endblock %}

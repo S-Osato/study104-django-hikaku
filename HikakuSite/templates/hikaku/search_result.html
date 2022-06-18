@@ -1,0 +1,49 @@
+{% extends "hikaku/base.html" %} 
+{% load render_table from django_tables2 %} 
+{% block content %}
+<main>
+  <h1>検索結果</h1>
+  <div class="container">
+    <div class="control-label">商品数:{{ record_count }}</div>
+    <div
+      class="
+        table table-hover table-header-checkbox-hidden
+        syuppin-item-table
+        sticky-table
+        mt-2
+      "
+    >
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">画像</th>
+            <th scope="col">商品名</th>
+            <th scope="col">価格</th>
+            <th scope="col">お気に入り</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <form action="{{ request.get_full_path }}" method="POST">
+          {% csrf_token %}
+          <tr>
+            <th scope="row"><img src={{ item.image_link }}></th>
+            <td><a href="../offer_list/?q={{ item.id }}"> {{ item.name }}</a></td> 
+            <td>{{ item.price }}</td>
+            {% if request.user.is_authenticated and item.id not in bookmark_id_list %}
+            <td>
+              <input type="hidden" name="product_id" value={{ item.id }}>
+              <button type="submit" class="btn btn-info">お気に入り追加</button>
+            </td>
+            {% else %}
+            <td><button type="submit" class="btn btn-info" disabled>お気に入り追加</button></td>
+            {% endif %}
+          </tr>
+          </form>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+{% endblock %}

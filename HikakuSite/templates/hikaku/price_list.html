@@ -1,0 +1,15 @@
+{% extends "hikaku/base.html" %}
+{% load render_table from django_tables2 %}
+{% block content %}
+<main>
+    <h1>検索結果</h1>
+    <div class="container">
+        <form id="main-form" class="form-horizontal" role="form" method="GET">
+            {% csrf_token %}
+            <div class="table table-hover table-header-checkbox-hidden syuppin-item-table sticky-table mt-2">
+                {% render_table table %}
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}
